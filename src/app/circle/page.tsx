@@ -8,10 +8,7 @@ interface DeviceOrientationEventWithPermission extends DeviceOrientationEvent {
 }
 
 const TiltBall = () => {
-  const [position, setPosition] = useState<{ x: number; y: number }>({
-    x: 0,
-    y: 0,
-  });
+  const [color, setColor] = useState<string>("hsl(0, 100%, 50%)");
 
   const [X, setX] = useState<number>();
   const [Y, setY] = useState<number>();
@@ -21,12 +18,15 @@ const TiltBall = () => {
       const beta = event.beta ?? 0;
       const gamma = event.gamma ?? 0;
 
-      const x = Math.max(-90, Math.min(90, gamma));
-      const y = Math.max(-90, Math.min(90, beta));
+      const x = Math.min(Math.max(gamma, -90), 90); // 좌우
+      const y = Math.min(Math.max(beta, -90), 90);
       setX(x);
       setY(y);
 
-      setPosition({ x, y });
+      const hue = ((x + 90) / 180) * 360;
+      const lightness = 50 + (y / 90) * 20;
+
+      setColor(`hsl(${hue}, 100%, ${lightness}%)`);
     };
 
     const enableOrientation = async () => {
@@ -64,7 +64,7 @@ const TiltBall = () => {
       <div>{Y}</div>
       <Ball
         style={{
-          transform: `translate(${position.x * 2}px, ${position.y * 2}px)`,
+          backgroundColor: color,
         }}
       />
     </Container>
