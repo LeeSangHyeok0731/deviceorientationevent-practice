@@ -83,8 +83,8 @@ const Container = styled.div`
 
 const Ball = styled.div`
   position: absolute;
-  width: 500px;
-  height: 500px;
+  width: 400px;
+  height: 400px;
   border-radius: 50%;
   background-size: 400% 400%;
   left: 50%;
