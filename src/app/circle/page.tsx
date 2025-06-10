@@ -86,16 +86,6 @@ const Ball = styled.div`
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: linear-gradient(
-    45deg,
-    red,
-    orange,
-    yellow,
-    green,
-    blue,
-    indigo,
-    violet
-  );
   background-size: 400% 400%;
   left: 50%;
   top: 50%;
