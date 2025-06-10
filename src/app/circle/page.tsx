@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
 interface DeviceOrientationEventWithPermission extends DeviceOrientationEvent {
   requestPermission?: () => Promise<"granted" | "denied">;
@@ -46,7 +46,6 @@ const TiltBall = () => {
           console.error("Permission denied:", e);
         }
       } else {
-        // Android, Desktop 등
         window.addEventListener("deviceorientation", handleOrientation);
       }
     };
@@ -82,12 +81,6 @@ const Container = styled.div`
   overflow: hidden;
 `;
 
-const rainbow = keyframes`
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-`;
-
 const Ball = styled.div`
   position: absolute;
   width: 80px;
@@ -104,7 +97,6 @@ const Ball = styled.div`
     violet
   );
   background-size: 400% 400%;
-  animation: ${rainbow} 5s linear infinite;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
