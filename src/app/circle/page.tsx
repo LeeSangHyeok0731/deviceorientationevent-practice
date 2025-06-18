@@ -14,12 +14,13 @@ const TiltBall = () => {
       const beta = event.beta ?? 0;
       const gamma = event.gamma ?? 0;
 
+      const x = Math.min(Math.max(gamma, -90), 90);
       const y = Math.min(Math.max(beta, -90), 90);
-      setX(gamma);
+      setX(x);
       setY(y);
 
-      const hue = ((X! + 90) / 180) * 360;
-      const lightness = 50 + (Y! / 90) * 20;
+      const hue = ((x + 90) / 180) * 360;
+      const lightness = 50 + (y / 90) * 20;
 
       setColor(`hsl(${hue}, 100%, ${lightness}%)`);
     };
