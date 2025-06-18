@@ -3,6 +3,10 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
+interface DeviceOrientationEventWithPermission extends DeviceOrientationEvent {
+  requestPermission?: () => Promise<"granted" | "denied">;
+}
+
 const TiltBall = () => {
   const [color, setColor] = useState<string>("hsl(0, 100%, 50%)");
 
@@ -25,7 +29,28 @@ const TiltBall = () => {
       setColor(`hsl(${hue}, 100%, ${lightness}%)`);
     };
 
-    window.addEventListener("deviceorientation", handleOrientation);
+    const enableOrientation = async () => {
+      const deviceOrientationEvent =
+        DeviceOrientationEvent as unknown as DeviceOrientationEventWithPermission;
+
+      if (
+        typeof deviceOrientationEvent !== "undefined" &&
+        deviceOrientationEvent.requestPermission
+      ) {
+        try {
+          const response = await deviceOrientationEvent.requestPermission();
+          if (response === "granted") {
+            window.addEventListener("deviceorientation", handleOrientation);
+          }
+        } catch (e) {
+          console.error("Permission denied:", e);
+        }
+      } else {
+        window.addEventListener("deviceorientation", handleOrientation);
+      }
+    };
+
+    enableOrientation();
 
     return () => {
       window.removeEventListener("deviceorientation", handleOrientation);
